@@ -1,5 +1,6 @@
 package com.divesh.mynotes.feature_note.presentation.add_edit_note
 
+import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
@@ -38,6 +39,8 @@ class AddEditNoteViewModel @Inject constructor(
     private val _noteColor = mutableStateOf(Note.noteColors.random().toArgb())
     val noteColor: State<Int> = _noteColor
 
+    private val _photoUri = mutableStateOf<Uri?>(null)
+    val photoUri: State<Uri?> = _photoUri
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -96,6 +99,10 @@ class AddEditNoteViewModel @Inject constructor(
                 _noteColor.value = event.color
             }
 
+            is AddEditNoteEvent.PickedPhoto -> {
+                _photoUri.value = event.value
+            }
+
             is AddEditNoteEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
@@ -105,7 +112,8 @@ class AddEditNoteViewModel @Inject constructor(
                                 content = noteContent.value.text,
                                 timestamp = System.currentTimeMillis(),
                                 color = noteColor.value,
-                                id = currentNoteId
+                                id = currentNoteId,
+                                image = photoUri.value
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)

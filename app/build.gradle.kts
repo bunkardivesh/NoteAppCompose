@@ -89,4 +89,7 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.5.2")
+
+    //for rememberImagePainter and image loading functionality
+    implementation("io.coil-kt:coil-compose:2.2.2")
 }

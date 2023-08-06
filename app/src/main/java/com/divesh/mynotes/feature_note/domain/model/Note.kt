@@ -1,5 +1,6 @@
 package com.divesh.mynotes.feature_note.domain.model
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.divesh.mynotes.ui.theme.BabyBlue
@@ -13,6 +14,7 @@ data class Note(
     val title: String,
     val content: String,
     val timestamp: Long,
+    val image: Uri?,
     val color: Int,
     @PrimaryKey val id: Int? = null
 ) {

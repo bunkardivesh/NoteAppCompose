@@ -1,6 +1,8 @@
 package com.divesh.mynotes.feature_note.presentation.add_edit_note.components
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -57,6 +59,7 @@ fun AddEditNoteScreen(
 
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
+    val photoState = viewModel.photoUri.value
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -65,6 +68,11 @@ fun AddEditNoteScreen(
         Animatable(
             Color(if (noteColor != -1) noteColor else viewModel.noteColor.value)
         )
+    }
+
+    val imageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        //When the user has selected a photo, its URL is returned here
+        viewModel.onEvent(AddEditNoteEvent.PickedPhoto(uri))
     }
 
     LaunchedEffect(key1 = true) {
